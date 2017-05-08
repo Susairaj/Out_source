@@ -1,6 +1,7 @@
-from openerp import api, fields, models
+from openerp import api, fields, models, _
 from openerp.exceptions import UserError
 import openerp.addons.decimal_precision as dp
+
 
 class ProductTemplateInherit(models.Model):
     _inherit = "product.template"
@@ -29,7 +30,7 @@ class ProductTemplateInherit(models.Model):
     def onchange_mrp(self):
         if self.list_price and self.mrp:
             if not self.mrp >= self.list_price:
-                raise UserError(_('Sale price should not be greater then the MRP!.'))
+                raise UserError(_('Sale price should not be greater then the MRP.'))
         
     options = fields.Selection([('paint','Paint'),('others','Others')],default="paint",string= 'Options')
     standard_price = fields.Float(

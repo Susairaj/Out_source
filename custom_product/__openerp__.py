@@ -21,14 +21,14 @@
 {
     'name': 'Custom Product',
     'version': '1.0',
-    'category': 'Tools',
+    'category': 'Sale',
     'sequence': 3,
     'summary': 'Product Customization',
     'description': """
 Product Customization
 ===========================================
     """,
-    'author': 'OCA',
+    'author': 'Nivas',
     'website': 'http://odoo.com',
     'depends': ['product'],
     'data': [
