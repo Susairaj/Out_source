@@ -10,17 +10,33 @@
             	<xpath expr="//form/sheet/notebook/page/group/group/div" position="replace">
 				</xpath>
 				<xpath expr="//form/sheet/notebook/page/group/group/field[@name='list_price']" position="before">
+					<field name="is_mrp"/>
                 	<label for="standard_price" groups="base.group_user"/>
                     <div name="standard_price_uom" groups="base.group_user">
                         <field name="standard_price" widget='monetary' options="{'currency_field': 'currency_id'}" class="oe_inline"/>
                     </div>
-                    <field name="vat_id" attrs="{'invisible': [('options','!=', 'others')]}"/>
-                    <field name="income_percentage" attrs="{'invisible': [('options','!=', 'others')]}"/>
-                    <field name="mrp" attrs="{'invisible': [('options','!=', 'others')]}"/>
+                    
+                    <label for="vat_id" string="VAT" />
+					<div class="arival_time">
+						<field name="vat_id" options="{'no_create': True, 'no_open': True}" style="width: 40%" />
+						<field name="vat_amt" style="width: 30%" />
+                    </div>
+                    <label for="income_percentage"/>
+					<div class="arival_time">
+						<field name="income_percentage" options="{'no_create': True, 'no_open': True}" style="width: 40%" />
+						<field name="income_amt" style="width: 30%" />
+                    </div>
+                    <field name="mrp" attrs="{'invisible': [('is_mrp','!=', True)]}"/>
 				</xpath>
-            	<xpath expr="//form/sheet/notebook/page/group/group/field[@name='type']" position="after">
+				<!-- <xpath expr="//field[@name='taxes_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='supplier_taxes_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath> -->
+            	<!--<xpath expr="//form/sheet/notebook/page/group/group/field[@name='type']" position="after">
                 	<field name="options"/>
-				</xpath>
+				</xpath>-->
 				<!-- <xpath expr="//form/sheet/notebook/page/group/group/field[@name='type']" position="before">
                 	<field name="options"/>
 				</xpath> -->

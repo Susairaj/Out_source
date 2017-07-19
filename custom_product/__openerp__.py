@@ -30,9 +30,10 @@ Product Customization
     """,
     'author': 'Nivas',
     'website': 'http://odoo.com',
-    'depends': ['product'],
+    'depends': ['product','purchase'],
     'data': [
         'views/inherited_product_view.xml',
+        'views/inherited_purchase_view.xml',
         ],
     'installable': True,
     'auto_install': False,

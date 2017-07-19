@@ -1,1 +1,2 @@
 import inherited_product
+import inherited_purchase
