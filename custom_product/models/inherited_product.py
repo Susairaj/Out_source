@@ -56,7 +56,6 @@ class ProductTemplateInherit(models.Model):
 
     @api.model
     def create(self, vals):
-        print('inth')
         ''' Store the initial standard price in order to be able to retrieve the cost of a product template for a given date'''
         # TDE FIXME: context brol
         tools.image_resize_images(vals)
