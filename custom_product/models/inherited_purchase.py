@@ -66,3 +66,11 @@ class PurchaseOrderLine(models.Model):
                 'price_total': taxes['total_included'],
                 'price_subtotal': taxes['total_excluded'],
             })
+            #product price update
+            for tax_id in line.taxes_id:
+                line.product_id.write({'vat_id':tax_id.id,'income_percentage':line.income_percentage})
+        return True
+            
+            
+            
+            
