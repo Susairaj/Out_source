@@ -5,31 +5,6 @@ import openerp.addons.decimal_precision as dp
 from openerp import api, fields, models, _, SUPERUSER_ID
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
-class PurchaseOrder(models.Model):
-    _inherit = "purchase.order"
-    _description = "Purchase Order"
-
-    @api.depends('order_line.price_total')
-    def _amount_all(self):
-        for order in self:
-            amount_untaxed = amount_tax = 0.0
-            for line in order.order_line:
-                amount_untaxed += line.price_subtotal
-                amount_tax += line.price_tax
-                tax_amt = 0.0;
-                for tax_id in line.taxes_id:
-                    tax_amt += tax_id.amount
-                if line.income_percentage and line.taxes_id:
-                    pp = (line.price_unit*tax_amt/100)+line.price_unit
-                    income = (pp*line.income_percentage/100)
-                    line.sale_price = income +pp
-            order.update({
-                'amount_untaxed': order.currency_id.round(amount_untaxed),
-                'amount_tax': order.currency_id.round(amount_tax),
-                'amount_total': amount_untaxed + amount_tax,
-            })
-
-
 
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
@@ -74,3 +49,20 @@ class PurchaseOrderLine(models.Model):
         self._suggest_quantity()
         self._onchange_quantity()
         return result
+    
+    @api.depends('product_qty', 'price_unit', 'taxes_id','income_percentage')
+    def _compute_amount(self):
+        for line in self:
+            taxes = line.taxes_id.compute_all(line.price_unit, line.order_id.currency_id, line.product_qty, product=line.product_id, partner=line.order_id.partner_id)
+            tax_amt = 0.0;
+            for tax_id in line.taxes_id:
+                tax_amt += tax_id.amount
+            if line.income_percentage and line.taxes_id:
+                pp = (line.price_unit*tax_amt/100)+line.price_unit
+                income = (pp*line.income_percentage/100)
+                line.sale_price = income +pp
+            line.update({
+                'price_tax': taxes['total_included'] - taxes['total_excluded'],
+                'price_total': taxes['total_included'],
+                'price_subtotal': taxes['total_excluded'],
+            })
