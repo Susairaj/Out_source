@@ -6,35 +6,17 @@ import openerp.addons.decimal_precision as dp
 class ProductTemplateInherit(models.Model):
     _inherit = "product.template"
 
-    @api.one
-    def _set_standard_price(self):
-        if len(self.product_variant_ids) == 1:
-            self.product_variant_ids.standard_price = self.standard_price
 
-    @api.depends('product_variant_ids', 'product_variant_ids.standard_price')
-    def _compute_standard_price(self):
-        unique_variants = self.filtered(lambda template: len(template.product_variant_ids) == 1)
-        for template in unique_variants:
-            template.standard_price = template.product_variant_ids.standard_price
-        for template in (self - unique_variants):
-            template.standard_price = 0.0
-
-    @api.onchange('standard_price','vat_id','income_percentage')
+    @api.onchange('standard_price','vat_id','actual_amt','income_percentage')
     def onchange_standard_price(self):
-        if self.standard_price and self.vat_id and not self.income_percentage:
-            self.list_price = (self.standard_price * (self.vat_id.amount/100)) + self.standard_price
-            self.vat_amt = self.list_price - self.standard_price
-        if self.standard_price and self.vat_id and self.income_percentage:
-            actual_vat_amt = (self.standard_price * (self.vat_id.amount/100)) + self.standard_price
-            self.vat_amt = actual_vat_amt - self.standard_price
-            self.income_amt = (self.standard_price + self.vat_amt) * (self.income_percentage/100)
-            self.list_price = self.vat_amt + self.standard_price + self.income_amt
-            
-#             self.list_price = (self.list_price * ((self.vat_id.amount + self.income_percentage)/100)) + self.standard_price
-#             actual_income_amt = (self.standard_price * (self.income_percentage/100)) + self.standard_price
-#             self.income_amt = actual_income_amt - self.standard_price
-#             actual_vat_amt = (self.standard_price * (self.vat_id.amount/100)) + self.standard_price
-#             self.vat_amt = actual_vat_amt - self.standard_price
+        if self.actual_amt and self.vat_id and not self.income_percentage:
+            self.list_price = (self.actual_amt * (self.vat_id.amount/100)) + self.actual_amt
+            self.vat_amt = self.list_price - self.actual_amt
+        if self.actual_amt and self.vat_id and self.income_percentage:
+            actual_vat_amt = (self.actual_amt * (self.vat_id.amount/100)) + self.actual_amt
+            self.vat_amt = actual_vat_amt - self.actual_amt
+            self.income_amt = (self.actual_amt + self.vat_amt) * (self.income_percentage/100)
+            self.list_price = self.vat_amt + self.actual_amt + self.income_amt
         
     @api.onchange('mrp')
     def onchange_mrp(self):
@@ -43,11 +25,7 @@ class ProductTemplateInherit(models.Model):
                 raise UserError(_('Sale price should not be greater then the MRP.'))
         
     is_mrp = fields.Boolean('Is MRP')
-    standard_price = fields.Float(
-        'Actual Price', compute='_compute_standard_price',
-        inverse='_set_standard_price', search='_search_standard_price',
-        digits=dp.get_precision('Product Price'), groups="base.group_user",
-        help="Cost of the product, in the default unit of measure of the product.")
+    actual_amt = fields.Float('Actual Price')
     vat_id  = fields.Many2one('account.tax', 'VAT')
     vat_amt = fields.Float("")
     income_percentage = fields.Float('Income(%)')
@@ -69,8 +47,8 @@ class ProductTemplateInherit(models.Model):
             related_vals['barcode'] = vals['barcode']
         if vals.get('default_code'):
             related_vals['default_code'] = vals['default_code']
-        if vals.get('standard_price'):
-            related_vals['standard_price'] = vals['standard_price']
+        if vals.get('actual_amt'):
+            related_vals['actual_amt'] = vals['actual_amt']
         if vals.get('volume'):
             related_vals['volume'] = vals['volume']
         if vals.get('weight'):
