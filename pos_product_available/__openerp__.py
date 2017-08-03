@@ -12,6 +12,7 @@
     ],
     'qweb': [
         'static/src/xml/pos.xml',
+        'static/src/xml/pos_report.xml',
     ],
     'installable': True,
 }

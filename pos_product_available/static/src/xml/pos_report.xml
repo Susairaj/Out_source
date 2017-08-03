@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates id="pos_custom_extended" inherit_id="point_of_sale.template" xml:space="preserve">
+
+<t t-name="PosTicket">
+        <div class="pos-sale-ticket">
+            
+            <div style="margin-left:12%;margin-right:12%;">
+				<table>
+					<tr>
+						<td class="pos-center-align" style="font-family:Akrobat;">
+							<t t-if='receipt.company.logo'>
+								<img width="100%" height="25%" align="left" src="/tender_cuts/static/src/img/logo.png" />
+								<br />
+							</t>
+						</td>
+					</tr>
+	             	<tr> <td class="pos-center-align" style="font-family:Akrobat;"> Venkateshwara Avenue,</td> </tr>
+	             	<tr> <td class="pos-center-align" style="font-family:Akrobat;"> Door No. 667, OMR,</td> </tr>
+	             	<tr> <td class="pos-center-align" style="font-family:Akrobat;"> Chennai, 600097</td> </tr>
+	          		<tr> <td class="pos-center-align" style="font-family:Akrobat;"> Phone: <t t-esc="receipt.company.phone" /> </td> </tr>
+           		</table>
+            </div>
+            <br />
+            <hr style="color:black;" />
+            <div class="pos-center-align" style="font-family:Akrobat;"><t
+	t-esc="moment().format('L LT')" /> | <t t-esc="order.name" /></div>
+            <hr style="color:black;" />
+            <br />
+            <t t-if="receipt.header">
+                <div style='text-align:center;font-family:Akrobat;'>
+                    <t t-esc="receipt.header" />
+                </div>
+                <br />
+            </t>
+            <table class='receipt-orderlines'>
+            	<colgroup>
+                    <col width='50%' />
+                    <col width='25%' />
+                    <col width='25%' />
+                </colgroup>
+            	<tr>
+                	<td style="font-family:Akrobat;"> Item Name</td>
+                    <td class="pos-center-align" style="font-family:Akrobat;"> Unit</td>
+                    <td class="pos-center-align" style="font-family:Akrobat;"> Amount </td>
+                </tr>
+            </table>
+            <hr style="color:black;" />
+            <hr style="color:black;" />
+            <table class='receipt-orderlines'>
+                <colgroup>
+                    <col width='50%' />
+                    <col width='25%' />
+                    <col width='25%' />
+                </colgroup>
+                <tr t-foreach="orderlines" t-as="orderline">
+                    <td style="font-family:Akrobat;">
+                        <t t-esc="orderline.get_product().display_name" />
+                         <t t-if="orderline.get_discount() > 0">
+                            <div class="pos-disc-font">
+                                With a <t t-esc="orderline.get_discount()" />% discount
+                            </div>
+                        </t>
+                    </td>
+                    <td class="pos-center-align" style="font-family:Akrobat;">
+                        <t t-esc="orderline.get_quantity_str_with_unit()" />
+                    </td>
+                    <td class="pos-right-align" style="font-family:Akrobat;">
+                        <t
+	t-esc="widget.format_currency(orderline.get_display_price())" />
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <hr style="color:black;" />
+            <table class='receipt-total'>
+            	<colgroup>
+                    <col width='40%' />
+                    <col width='30%' />
+                    <col width='30%' />
+                </colgroup>
+                <tr>
+                	<td></td>
+                    <td style="font-family:Akrobat;">Subtotal:</td>
+                    <td class="pos-right-align" style="font-family:Akrobat;">
+                        <t
+	t-esc="widget.format_currency(order.get_total_without_tax())" />
+                    </td>
+                </tr>
+                <t t-foreach="order.get_tax_details()" t-as="taxdetail">
+                    <tr>
+                    	<td></td>
+                        <td style="font-family:Akrobat;"><t t-esc="taxdetail.name" /></td>
+                        <td class="pos-right-align" style="font-family:Akrobat;">
+                            <t
+	t-esc="widget.format_currency(taxdetail.amount)" />
+                        </td>
+                    </tr>
+                </t>
+                <tr>
+                	<td></td>
+                    <td style="font-family:Akrobat;">Discount:</td>
+                    <td class="pos-right-align" style="font-family:Akrobat;">
+                        <t
+	t-esc="widget.format_currency(order.get_total_discount())" />
+                    </td>
+                </tr>
+                <tr class="emph">
+                	<td></td>
+                    <td style="font-family:Akrobat;">Total:</td>
+                    <td class="pos-right-align" style="font-family:Akrobat;">
+                        <t
+	t-esc="widget.format_currency(order.get_total_with_tax())" />
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table class='receipt-paymentlines'>
+                <colgroup>
+                    <col width='40%' />
+                    <col width='30%' />
+                    <col width='30%' />
+                </colgroup>
+                <t t-foreach="paymentlines" t-as="line">
+                  <tr>
+                      <td></td>
+                      <td style="font-family:Akrobat;">
+                          <t t-esc="line.name" />
+                      </td>
+                      <td class="pos-right-align" style="font-family:Akrobat;">
+                          <t
+	t-esc="widget.format_currency(line.get_amount())" />
+                      </td>
+                  </tr>
+                </t>
+            </table>
+            <br />
+            <table class='receipt-change'>
+            	<colgroup>
+                    <col width='40%' />
+                    <col width='30%' />
+                    <col width='30%' />
+                </colgroup>
+                <tr><td></td><td style="font-family:Akrobat;">Change:</td><td
+	class="pos-right-align" style="font-family:Akrobat;">
+                    <t t-esc="widget.format_currency(order.get_change())" />
+                    </td></tr>
+            </table>
+            <hr style="color:black;" />
+            <t t-if="receipt.footer">
+                <br />
+                <div style='text-align:center'>
+                    <t t-esc="receipt.footer" />
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>
