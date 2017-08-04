@@ -10,14 +10,15 @@
 					<tr>
 						<td class="pos-center-align" style="font-family:Akrobat;">
 							<t t-if='receipt.company.logo'>
-								<img width="100%" height="25%" align="left" src="/tender_cuts/static/src/img/logo.png" />
+								<img width="100%" height="25%" align="left" src="/pos_product_available/static/description/logo.jpg" />
 								<br />
 							</t>
 						</td>
 					</tr>
-	             	<tr> <td class="pos-center-align" style="font-family:Akrobat;"> Venkateshwara Avenue,</td> </tr>
-	             	<tr> <td class="pos-center-align" style="font-family:Akrobat;"> Door No. 667, OMR,</td> </tr>
-	             	<tr> <td class="pos-center-align" style="font-family:Akrobat;"> Chennai, 600097</td> </tr>
+	             	<!-- <tr> <td class="pos-center-align" style="font-family:Akrobat;"> <t t-esc="receipt.company.street" /></td> </tr>
+	             	<tr> <td class="pos-center-align" style="font-family:Akrobat;"> <t t-esc="receipt.company.street1" /></td> </tr>
+	             	<tr> <td class="pos-center-align" style="font-family:Akrobat;"> <t t-esc="receipt.company.city" />, <t t-esc="receipt.company.zip" /></td> </tr> -->
+	             	<tr> <td class="pos-center-align" style="font-family:Akrobat;"> Email: <t t-esc="receipt.company.email" /> </td> </tr>
 	          		<tr> <td class="pos-center-align" style="font-family:Akrobat;"> Phone: <t t-esc="receipt.company.phone" /> </td> </tr>
            		</table>
             </div>
@@ -141,6 +142,10 @@
                     <col width='30%' />
                     <col width='30%' />
                 </colgroup>
+                <tr><td></td><td style="font-family:Akrobat;">Change:</td><td
+	class="pos-right-align" style="font-family:Akrobat;">
+                    <t t-esc="widget.format_currency(order.get_change())" />
+                    </td></tr>
                 <tr><td></td><td style="font-family:Akrobat;">Change:</td><td
 	class="pos-right-align" style="font-family:Akrobat;">
                     <t t-esc="widget.format_currency(order.get_change())" />
