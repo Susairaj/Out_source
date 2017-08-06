@@ -34,6 +34,7 @@ Product Customization
     'data': [
         'views/inherited_product_view.xml',
         'views/inherited_purchase_view.xml',
+        'views/inherited_res_partner.xml',
         ],
     'installable': True,
     'auto_install': False,

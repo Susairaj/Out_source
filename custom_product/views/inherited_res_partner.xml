@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="view_partner_form_inherited_view" model="ir.ui.view">
+			<field name="name">res.partner.inherit.crosspoint</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form" />
+			<field name="arch" type="xml">
+				<xpath position="after" expr="//form/sheet/div[2]/h1/field[@name='name']">
+					<group>
+						<field name="tin_no" />
+					</group>
+				</xpath>
+			</field>
+		</record>
+	</data>
+
+</odoo>

@@ -1,2 +1,3 @@
 import inherited_product
 import inherited_purchase
+import inherited_res_partner
