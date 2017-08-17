@@ -5,13 +5,20 @@
             <div class="pos-sale-ticket">
                 <div>
                     <div style="width: 55%; float: left; padding: 20px 0px;">
-                        <t t-if="widget.pos.company.phone">
-                            Phone: <t t-esc="widget.pos.company.phone || ''"/><br />
-                        </t>
                         Cashier: <t t-esc="widget.pos.cashier ? widget.pos.cashier.name : widget.pos.user.name"/><br />
                         <t t-esc="order.name"/>
                         <t t-esc="moment().format('L LT')"/>
+                        <br />
+                        <t t-if="widget.pos.company.phone">
+                            Phone: <t t-esc="widget.pos.company.phone || ''"/><br />
+                        </t>
                     </div>
+                    <t t-if="widget.pos.company.phone">
+                            Customer:  <t t-esc="order.changed.client ? order.changed.client.name : 'Client Anyone'"/>
+                        </t>
+                        <t t-if="widget.pos.company.phone">
+                            TIN #:  <t t-esc="order.changed.client ? order.changed.client.tin_no : ''"/>
+                        </t>
                     <div style="width: 45%;float: left; ">
                         <img src='/web/binary/company_logo' style="width:100%"/>
                     </div>
