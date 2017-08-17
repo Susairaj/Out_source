@@ -68,7 +68,7 @@ class PurchaseOrderLine(models.Model):
             })
 #             product price update
             for tax_id in line.taxes_id:
-                line.product_id.write({'vat_id':tax_id.id,'income_percentage':line.income_percentage,'actual_amt':line.price_unit,
+                line.product_id.write({'vat_id':tax_id.id,'vat_percentage':tax_id.amount,'income_percentage':line.income_percentage,'actual_amt':line.price_unit,
                                        'list_price':line.sale_price,'vat_amt':actual_vat_amt,'income_amt':income_amt})
         return True
 #             

@@ -12,13 +12,13 @@
                         <t t-if="widget.pos.company.phone">
                             Phone: <t t-esc="widget.pos.company.phone || ''"/><br />
                         </t>
-                    </div>
-                    <t t-if="widget.pos.company.phone">
+                        <t t-if="order.changed.client">
                             Customer:  <t t-esc="order.changed.client ? order.changed.client.name : 'Client Anyone'"/>
+                        </t><br/>
+                        <t t-if="order.changed.client">
+                            TIN #:  <t t-esc="order.changed.client.tin_no ? order.changed.client.tin_no : ''"/>
                         </t>
-                        <t t-if="widget.pos.company.phone">
-                            TIN #:  <t t-esc="order.changed.client ? order.changed.client.tin_no : ''"/>
-                        </t>
+                    </div>
                     <div style="width: 45%;float: left; ">
                         <img src='/web/binary/company_logo' style="width:100%"/>
                     </div>
@@ -149,6 +149,38 @@
                         <t t-esc="widget.format_currency(order.get_change())"/>
                         </td></tr>
                 </table>
+                 <br/>
+                 <div class="row">
+                    <div class="col-xs-12 pull-right">
+                        <table class="receipt-orderlines">
+                            <tr class="border-black">
+                                <td><strong>CGST</strong></td>
+                                <t t-set="total_vat" t-value="0" />
+                                <t t-foreach="orderlines" t-as="orderline">
+			                      	<t t-set="total_vat" t-value="total_vat+orderline.get_product().vat_percentage/2" />
+			                   </t>
+                                <td>
+                                	<div class="pos-disc-font">
+                                		<t t-esc="total_vat"/>%
+                                	</div>
+                                </td>
+                            </tr>
+                            <tr class="border-black">
+                                <td><strong>SGST</strong></td>
+                                <t t-set="total_vat" t-value="0" />
+                                <t t-foreach="orderlines" t-as="orderline">
+			                      	<t t-set="total_vat" t-value="total_vat+orderline.get_product().vat_percentage/2" />
+			                   </t>
+                                <td>
+                                	<div class="pos-disc-font">
+                                		<t t-esc="total_vat"/>%
+                                	</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                 
             </div>
         </t>
     </t>

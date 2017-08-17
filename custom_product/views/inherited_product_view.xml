@@ -21,6 +21,7 @@
 					<div class="arival_time">
 						<field name="vat_id" options="{'no_create': True, 'no_open': True}" style="width: 40%" />
 						<field name="vat_amt" style="width: 30%" />
+						<field name="vat_percentage" invisible="1"/>
                     </div>
                     <label for="income_percentage"/>
 					<div class="arival_time">

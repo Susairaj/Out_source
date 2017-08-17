@@ -12,11 +12,13 @@ class ProductTemplateInherit(models.Model):
         if self.actual_amt and self.vat_id and not self.income_percentage:
             self.list_price = (self.actual_amt * (self.vat_id.amount/100)) + self.actual_amt
             self.vat_amt = self.list_price - self.actual_amt
+            self.vat_percentage = self.vat_id.amount
         if self.actual_amt and self.vat_id and self.income_percentage:
             actual_vat_amt = (self.actual_amt * (self.vat_id.amount/100)) + self.actual_amt
             self.vat_amt = actual_vat_amt - self.actual_amt
             self.income_amt = (self.actual_amt + self.vat_amt) * (self.income_percentage/100)
             self.list_price = self.vat_amt + self.actual_amt + self.income_amt
+            self.vat_percentage = self.vat_id.amount
         
     @api.onchange('mrp')
     def onchange_mrp(self):
@@ -27,6 +29,7 @@ class ProductTemplateInherit(models.Model):
     is_mrp = fields.Boolean('Is MRP')
     actual_amt = fields.Float('Actual Price')
     vat_id  = fields.Many2one('account.tax', 'VAT')
+    vat_percentage = fields.Float('Vat Percentage')
     vat_amt = fields.Float("")
     income_percentage = fields.Float('Income(%)')
     income_amt = fields.Float("")
