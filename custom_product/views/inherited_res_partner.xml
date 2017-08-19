@@ -15,4 +15,48 @@
 		</record>
 	</data>
 
+
+	<record id="update_product_view_tree" model="ir.ui.view">
+			<field name="name">update.product.tree</field>
+			<field name="model">update.product</field>
+			<field name="arch" type="xml">
+				<tree string="Image">
+					<field name="name" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="update_product_view_form" model="ir.ui.view">
+			<field name="name">update.product.form</field>
+			<field name="model">update.product</field>
+			<field name="arch" type="xml">
+				<form string="Update Product">
+					<header>
+						<button string="Update Vat" type='object' name="update_vat" class="btn-primary"/>
+					</header>
+					<group>
+						<group>
+							<field name="name" />
+						</group>
+						<group>
+						</group>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record id="update_product_action" model="ir.actions.act_window">
+			<field name="name">Update Vat</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">update.product</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		
+		<menuitem action="update_product_action"
+            groups="base.group_no_one"
+            id="menu_product_updation"
+            parent="product.prod_config_main" sequence="4"/>
+
+
 </odoo>
