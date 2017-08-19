@@ -53,10 +53,8 @@
 			<field name="view_mode">tree,form</field>
 		</record>
 		
-		<menuitem action="update_product_action"
-            groups="base.group_no_one"
-            id="menu_product_updation"
-            parent="product.prod_config_main" sequence="4"/>
+        <menuitem id="sub_menu_sale_general_settings" name="Update Vat" parent="base.menu_sale_config"
+            sequence="1" action="update_product_action"/>
 
 
 </odoo>
