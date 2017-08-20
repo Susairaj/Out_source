@@ -14,18 +14,29 @@
                 Customer:  <t t-esc="order.changed.client ? order.changed.client.name : 'Client Anyone'"/>
             </t><br/>
             <t t-if="order.changed.client">
-                TIN #:  <t t-esc="order.changed.client.tin_no ? order.changed.client.tin_no : ''"/>
+                GST NO:  <t t-esc="order.changed.client.tin_no ? order.changed.client.tin_no : ''"/>
             </t>
             <br />
-            <hr style="border-top: 1px solid #8c8b8b;margin-bottom: -17px;"/>
-            <p>Products</p>
-            <hr style="border-top: 1px solid #8c8b8b;margin-top: -17px;"/>
+            <hr style="border-top: 1px solid #8c8b8b;margin-bottom: 3px;"/>
             <t t-if="receipt.header">
                 <div style='text-align:center'>
                     <t t-esc="receipt.header" />
                 </div>
                 <br />
             </t>
+            <table class='receipt-orderlines'>
+                <colgroup>
+                    <col width='50%' />
+                    <col width='25%' />
+                    <col width='25%' />
+                </colgroup>
+                <tr>
+                        <th>Name</th>
+                        <th class="pos-right-align">Qty</th>
+                        <th class="pos-right-align">Price</th>
+                    </tr>
+            </table>
+            <hr style="border-top: 1px solid #8c8b8b;margin-top: 5px;"/>
             <table class='receipt-orderlines'>
                 <colgroup>
                     <col width='50%' />
